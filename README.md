@@ -21,3 +21,5 @@ Open `http://localhost:3000`. No dependency installation or build step is needed
 - `assets/`: referenced images, sticker sheet, fonts, and font licence.
 
 Project covers and in-case artwork use 3:2 frames. Prepare replacement artwork at 1800 × 1200 px or another 3:2 size. Colmex Pro intentionally has no project imagery.
+
+After changing CSS or JavaScript, run `python3 scripts/version-assets.py` before committing. This refreshes the asset URLs so returning visitors load the matching styles and scripts. SVG navigation icons also declare their own dimensions as a fallback.
