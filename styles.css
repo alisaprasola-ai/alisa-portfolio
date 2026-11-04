@@ -328,3 +328,22 @@ a.button:hover{background:#13293c;color:#fff;text-decoration:none}
 .about-copy .tool-app{width:56px;flex-shrink:0}
 .about-copy .tool-app-label{width:max-content;max-width:none;text-align:center}
 @media(max-width:600px){.about-copy .tool-app{width:48px}}
+
+/* Keep gaps inside the toolkit tighter than the gap separating it from the biography. */
+.about-copy .tools-app-grid{grid-template-columns:repeat(6,minmax(0,1fr));width:min(100%,532px);gap:16px 12px}
+.about-copy .tool-app{gap:6px}
+@media(max-width:767px){
+  .about-copy .tools-section{margin-top:36px}
+  .about-copy .tools-app-grid{grid-template-columns:repeat(3,72px);width:max-content;max-width:100%;gap:14px 8px;margin-inline:auto}
+  .about-copy .tools-app-grid>li{justify-content:center}
+  .about-copy .tool-app{width:48px}
+  .about-copy .tool-app-icon{width:48px;height:48px;border-radius:13px}
+  .about-copy .tool-app-icon img{width:25px;height:25px}
+  .about-copy .app-figma img,.about-copy .app-sites img,.about-copy .app-make img,.about-copy .app-motion img{width:18px;height:28px}
+  .about-copy .app-figjam img{width:34px;height:34px}
+  .about-copy .tool-lettermark{font-size:23px}
+}
+
+.about-copy .tools-section{margin-top:64px}
+.about-copy .tools-app-grid{row-gap:8px}
+.about-copy .tool-app-label{min-height:0}
