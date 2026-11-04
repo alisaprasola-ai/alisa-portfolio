@@ -295,3 +295,13 @@ a.button:hover{background:#13293c;color:#fff;text-decoration:none}
   .about-copy .app-figjam img{width:34px;height:34px}
   .about-copy .tool-lettermark{font-size:23px}
 }
+
+/* Align tool artwork and labels with the card's text grid. */
+.about-copy .tool-app{align-items:flex-start;text-align:left;height:100%}
+.about-copy .tool-app-label{display:block;min-height:2.8em}
+.about-copy .tools-app-grid{align-items:start}
+
+.experience article>div{flex:1;min-width:0}
+.experience article>span{flex-shrink:0}
+.experience .experience-location{font-size:14px;line-height:1.5;margin-top:5px}
+.experience .experience-description{font-size:16px;line-height:1.7;margin-top:12px}
