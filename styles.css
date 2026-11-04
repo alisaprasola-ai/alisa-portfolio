@@ -347,3 +347,25 @@ a.button:hover{background:#13293c;color:#fff;text-decoration:none}
 .about-copy .tools-section{margin-top:64px}
 .about-copy .tools-app-grid{row-gap:8px}
 .about-copy .tool-app-label{min-height:0}
+
+/* Seven desktop tools per row; clearer separation between rows and a shorter lead-in. */
+.about-copy .tools-section{margin-top:48px}
+.about-copy .tools-app-grid{row-gap:24px}
+@media(min-width:768px){
+  .about-copy .tools-app-grid{grid-template-columns:repeat(7,minmax(0,1fr));width:100%;column-gap:12px}
+}
+
+/* Align fact icons with the first line, including multi-line captions. */
+.about-stats li{align-items:flex-start}
+.about-stats li>span{flex-shrink:0;line-height:24px}
+
+/* Company marks in the work-history rows, aligned like the supplied LinkedIn reference. */
+.experience article.experience-with-logo{display:grid;grid-template-columns:48px minmax(0,1fr) auto;column-gap:14px;align-items:start}
+.company-logo{display:block;width:48px;height:48px;object-fit:contain;border-radius:8px;background:#111;padding:7px}
+.company-merge-rocks{padding:10px;background:#080d13}
+.company-intresmart{padding:5px}
+@media(max-width:767px){
+  .experience article.experience-with-logo{grid-template-columns:40px minmax(0,1fr);gap:8px 12px}
+  .experience-with-logo .company-logo{width:40px;height:40px;grid-row:1/3}
+  .experience article.experience-with-logo>span{grid-column:2}
+}
