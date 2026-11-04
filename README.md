@@ -16,6 +16,7 @@ Open `http://localhost:3000`. No dependency installation or build step is needed
 
 - `index.html`: homepage, projects, About, experience, and contact links.
 - `projects/`: individual project pages and related-project navigation.
+- `books.html`, `books-data.js`, `books.js`: personal bookshelf, confirmed book entries, and book-details interactions.
 - `styles.css`: responsive layouts, colours, and animations.
 - `hero-typing.js`: one-time typing animation and heading colour effects; respects reduced motion.
 - `assets/`: referenced images, sticker sheet, fonts, and font licence.

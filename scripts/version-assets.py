@@ -6,9 +6,9 @@ import re
 root = Path(__file__).resolve().parent.parent
 versions = {
     name: sha256((root / name).read_bytes()).hexdigest()[:12]
-    for name in ('styles.css', 'hero-typing.js', 'site-nav.js')
+    for name in ('styles.css', 'hero-typing.js', 'site-nav.js', 'books-data.js', 'books.js')
 }
-for page in [root / 'index.html', *(root / 'projects').glob('*.html')]:
+for page in [*root.glob('*.html'), *(root / 'projects').glob('*.html')]:
     text = page.read_text()
     for name, version in versions.items():
         pattern = r'((?:href|src)="(?:\.\./)?' + re.escape(name) + r')(?:\?[^"\s]*)?(")'
