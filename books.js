@@ -42,9 +42,9 @@
     const colour = book.spineColor || palette[index % palette.length];
     button.style.setProperty('--book-colour', colour);
     button.style.setProperty('--book-ink', spineInk(colour));
-    const direction = index % 2 ? 1 : -1;
-    button.style.setProperty('--book-lean-start', (direction * (.35 + index % 3 * .2)) + 'deg');
-    button.style.setProperty('--book-lean-end', (-direction * (.6 + index % 4 * .2)) + 'deg');
+    const lean = [-3, .8, 0, 4, -1.5, .5, 0, -1, 2, .4, -2.5, 1][index % 12];
+    button.style.setProperty('--book-lean-start', (lean - .65) + 'deg');
+    button.style.setProperty('--book-lean-end', (lean + .65) + 'deg');
     button.style.setProperty('--book-sway-duration', (6.2 + index % 5 * .65) + 's');
     button.style.setProperty('--book-sway-delay', (-index * 1.17) + 's');
     button.setAttribute('aria-label', book.title + (book.author ? ' by ' + book.author : '') + ' — view details');
@@ -112,7 +112,14 @@
     container.replaceChildren();
     if (!entries.length) return;
     const { shelf, row } = makeShelf();
-    entries.forEach((book, index) => row.append(makeBook(book, index, false)));
+    const primaryIndex = Math.floor(entries.length * .55);
+    const secondaryIndex = Math.floor(entries.length * .2);
+    entries.forEach((book, index) => {
+      const button = makeBook(book, index, false);
+      if (book.cover && index === primaryIndex) button.classList.add('book-cycle-a');
+      else if (book.cover && index === secondaryIndex) button.classList.add('book-cycle-b');
+      row.append(button);
+    });
     container.append(shelf);
   };
   const renderCollections = () => {

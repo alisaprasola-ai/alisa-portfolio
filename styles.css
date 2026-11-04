@@ -439,18 +439,20 @@ a.button:hover{background:#13293c;color:#fff;text-decoration:none}
 
 .library-heading{margin-bottom:32px}
 
-/* A spine turns toward its cover while the neighbouring books make room. */
+/* Shared cycle: alternate the featured covers, then yield to the hovered book. */
+@property --book-cycle-open{syntax:"<number>";inherits:true;initial-value:0}
+@property --book-cycle-lean{syntax:"<angle>";inherits:true;initial-value:0deg}
+@property --book-user-open{syntax:"<number>";inherits:true;initial-value:0}
+@property --shelf-interaction{syntax:"<number>";inherits:true;initial-value:0}
 .library-book.book-original-cover{
   position:relative;overflow:visible;isolation:isolate;
   perspective:1100px;perspective-origin:left center;box-shadow:none;
-  transition:width .65s cubic-bezier(.22,.8,.24,1);
 }
 .library-book.book-original-cover:hover{transform:none}
 .book-volume{
   position:absolute;left:0;bottom:0;display:block;width:calc(var(--book-cover-width) * var(--book-scale,1));height:100%;
   transform-style:preserve-3d;transform-origin:left bottom;transform:rotateY(0deg);
   animation:book-idle-sway var(--book-sway-duration,7s) ease-in-out var(--book-sway-delay,0s) infinite;
-  transition:transform .65s cubic-bezier(.22,.8,.24,1);
 }
 .book-front,.book-spine{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:2px 4px 2px 1px;overflow:hidden}
 .book-front{background:var(--book-colour);box-shadow:3px 2px 7px #07152226}
@@ -463,19 +465,51 @@ a.button:hover{background:#13293c;color:#fff;text-decoration:none}
   transform:rotateY(-90deg);transform-origin:left center;
 }
 .book-spine .book-spine-title{writing-mode:vertical-rl;white-space:nowrap;text-overflow:ellipsis;max-height:100%;line-height:1.2;font-size:14px;text-align:left}
-@media(hover:hover) and (pointer:fine){
-  .library-book.book-original-cover{width:calc(var(--book-width) * var(--book-scale,1))}
-  .book-original-cover .book-volume{transform:rotateY(90deg)}
-  .library-book.book-original-cover:is(:hover,:focus-visible){width:calc(var(--book-cover-width) * var(--book-scale,1));z-index:2}
-  .book-original-cover:is(:hover,:focus-visible) .book-volume{transform:rotateY(0deg)}
-}
 @keyframes book-idle-sway{
   0%,100%{rotate:0 0 1 var(--book-lean-start,-.5deg)}
   50%{rotate:0 0 1 var(--book-lean-end,.8deg)}
 }
-.book-original-cover:is(:hover,:focus-visible) .book-volume{animation-play-state:paused}
-.books-page:has(.book-dialog[open]) .book-volume{animation-play-state:paused}
+@keyframes book-cycle-lean{
+  0%,100%{--book-cycle-lean:var(--book-lean-start,-.5deg)}
+  50%{--book-cycle-lean:var(--book-lean-end,.8deg)}
+}
+@keyframes book-cycle-a{
+  0%,22%,100%{--book-cycle-open:1}
+  34%,66%{--book-cycle-open:0}
+  78%{--book-cycle-open:1}
+}
+@keyframes book-cycle-b{
+  0%,22%,100%{--book-cycle-open:0}
+  34%,66%{--book-cycle-open:1}
+  78%{--book-cycle-open:0}
+}
+@media(hover:hover) and (pointer:fine){
+  .shelf-books{--shelf-interaction:0;transition:--shelf-interaction .6s cubic-bezier(.22,.8,.24,1)}
+  .library-book.book-original-cover{
+    --book-user-open:0;
+    --book-open:calc(var(--book-cycle-open) * (1 - var(--shelf-interaction)) + var(--book-user-open) * var(--shelf-interaction));
+    width:calc((var(--book-width) + (var(--book-cover-width) - var(--book-width)) * var(--book-open)) * var(--book-scale,1));
+    animation:book-cycle-lean var(--book-sway-duration,7s) ease-in-out var(--book-sway-delay,0s) infinite;
+    transition:--book-user-open .6s cubic-bezier(.22,.8,.24,1);
+  }
+  .library-book.book-cycle-a{
+    animation:book-cycle-lean var(--book-sway-duration,7s) ease-in-out var(--book-sway-delay,0s) infinite,book-cycle-a 8.2s cubic-bezier(.45,0,.2,1) infinite;
+  }
+  .library-book.book-cycle-b{
+    animation:book-cycle-lean var(--book-sway-duration,7s) ease-in-out var(--book-sway-delay,0s) infinite,book-cycle-b 8.2s cubic-bezier(.45,0,.2,1) infinite;
+  }
+  .book-original-cover .book-volume{
+    animation:none;
+    transform:rotateY(calc(90deg * (1 - var(--book-open))));
+    rotate:0 0 1 calc(var(--book-cycle-lean) * (1 - var(--book-open)));
+  }
+  .shelf-books:is(:hover,:has(.book-original-cover:focus-visible)){--shelf-interaction:1}
+  .shelf-books:is(:hover,:has(.book-original-cover:focus-visible)) .book-original-cover{animation-play-state:paused}
+  .library-book.book-original-cover:is(:hover,:focus-visible){--book-user-open:1;z-index:2}
+  .shelf-books:hover .book-original-cover:focus-visible:not(:hover){--book-user-open:0}
+}
+.books-page:has(.book-dialog[open]) :is(.book-original-cover,.book-volume){animation-play-state:paused}
 @media(prefers-reduced-motion:reduce){
-  .library-book.book-original-cover,.book-volume{transition:none}
-  .book-volume{animation:none}
+  .shelf-books,.library-book.book-original-cover{transition:none}
+  .library-book.book-original-cover,.book-volume{animation:none}
 }
