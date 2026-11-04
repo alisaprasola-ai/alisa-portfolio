@@ -268,3 +268,30 @@ a.button:hover{background:#13293c;color:#fff;text-decoration:none}
 @media(max-width:900px){.tools-app-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:30px 18px}}
 @media(max-width:600px){.tools-section{margin-top:60px}.tools-section h2{font-size:26px}.tools-app-grid{gap:27px 10px;padding:28px 12px;border-radius:20px}.tool-app{gap:10px}.tool-app-icon{width:74px;height:74px;border-radius:19px}.tool-app-icon img{width:36px;height:36px}.app-figma img,.app-sites img,.app-make img,.app-motion img{width:27px;height:41px}.app-figjam img{width:53px;height:53px}.tool-lettermark{font-size:31px}.tool-app-label{font-size:14px}.tool-app-badge{right:3px;bottom:3px;min-width:20px;min-height:20px;font-size:14px}.tools-figma-note{font-size:14px}}
 @media(prefers-reduced-motion:reduce){.tool-app-icon{transition:none}.tool-app:hover .tool-app-icon{transform:none}}
+
+/* Keep both AKC roles intact, with the second role on its own line. */
+.case-role-lines>span{display:block;white-space:nowrap}
+@media(max-width:767px){.case-summary dl>div:has(.case-role-lines){grid-column:1/-1}}
+
+/* Compact toolkit lives within the About card, directly after the introduction. */
+.about-copy .tools-section{width:100%;max-width:none;margin:24px 0 0;padding-top:22px;border-top:1px solid #dce1e7;text-align:left}
+.about-copy .tools-section h2{font-size:20px;line-height:1.3;letter-spacing:-.4px;margin:0 0 20px;font-weight:500}
+.about-copy .tools-app-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:22px 12px;padding:0;margin:0 0 20px;background:transparent;border-radius:0}
+.about-copy .tool-app{gap:9px;text-align:center;border-radius:12px}
+.about-copy .tool-app-icon{width:56px;height:56px;border-radius:15px;box-shadow:inset 0 1px 2px #ffffff70,0 2px 5px #07152209}
+.about-copy .tool-app-icon img{width:29px;height:29px}
+.about-copy .app-figma img,.about-copy .app-sites img,.about-copy .app-make img,.about-copy .app-motion img{width:21px;height:32px}
+.about-copy .app-figjam img{width:39px;height:39px}
+.about-copy .tool-lettermark{font-size:25px;letter-spacing:-1px}
+.about-copy .tool-app-badge{right:-3px;bottom:-3px;min-width:19px;min-height:19px;font-size:14px;border-radius:6px}
+.about-copy .tool-app-label{font-size:14px;line-height:1.4}
+.about-copy .tools-figma-note{font-size:14px;line-height:1.6;margin:0}
+@media(max-width:600px){
+  .about-copy .tools-section{margin-top:22px;padding-top:20px}
+  .about-copy .tools-app-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:22px 10px}
+  .about-copy .tool-app-icon{width:48px;height:48px;border-radius:13px}
+  .about-copy .tool-app-icon img{width:25px;height:25px}
+  .about-copy .app-figma img,.about-copy .app-sites img,.about-copy .app-make img,.about-copy .app-motion img{width:18px;height:28px}
+  .about-copy .app-figjam img{width:34px;height:34px}
+  .about-copy .tool-lettermark{font-size:23px}
+}
