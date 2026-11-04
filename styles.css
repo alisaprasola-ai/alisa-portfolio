@@ -421,3 +421,53 @@ a.button:hover{background:#13293c;color:#fff;text-decoration:none}
 .book-spine-title{white-space:nowrap;text-overflow:ellipsis}
 .book-face .book-spine-title{white-space:normal}
 .shelf-section[hidden]{display:none}
+
+/* One continuous bookshelf, with horizontal scrolling only inside the shelf. */
+.books-page,.library-room{background:#fff}
+.library-room{box-shadow:none}
+.book-shelf{max-width:100%;overflow-x:auto;padding-bottom:20px;scrollbar-width:thin;scrollbar-color:#b1b7bd #f5f7f9}
+.shelf-track{width:max-content;min-width:100%}
+.shelf-books{flex-wrap:nowrap}
+.book-shelf:focus-visible{outline:2px solid var(--ink);outline-offset:5px;border-radius:4px}
+
+/* Varied book sizes, all standing on the same shelf edge. */
+.library-book{height:calc(var(--book-height,152px) * var(--book-scale,1));width:calc(var(--book-width,40px) * var(--book-scale,1))}
+.library-book.book-face{height:calc(var(--book-height,175px) * var(--book-scale,1));width:calc(var(--book-cover-width,116px) * var(--book-scale,1))}
+.library-book.book-original-cover{padding:0;background:transparent;border:0}
+.book-original-cover img{width:100%;height:100%;object-fit:contain;object-position:bottom}
+@media(max-width:600px){.library-book{--book-scale:.85}}
+
+.library-heading{margin-bottom:32px}
+
+/* A spine turns toward its cover while the neighbouring books make room. */
+.library-book.book-original-cover{
+  position:relative;overflow:visible;isolation:isolate;
+  perspective:1100px;perspective-origin:left center;box-shadow:none;
+  transition:width .65s cubic-bezier(.22,.8,.24,1);
+}
+.library-book.book-original-cover:hover{transform:none}
+.book-volume{
+  position:absolute;left:0;bottom:0;display:block;width:calc(var(--book-cover-width) * var(--book-scale,1));height:100%;
+  transform-style:preserve-3d;transform-origin:left center;transform:rotateY(0deg);
+  transition:transform .65s cubic-bezier(.22,.8,.24,1);
+}
+.book-front,.book-spine{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:2px 4px 2px 1px;overflow:hidden}
+.book-front{background:var(--book-colour);box-shadow:3px 2px 7px #07152226}
+.book-front::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#07152226,transparent 6%,#ffffff18 9%,transparent 14%);pointer-events:none}
+.book-front img{display:block;width:100%;height:100%;object-fit:contain;object-position:bottom}
+.book-spine{
+  width:calc(var(--book-width) * var(--book-scale,1));padding:12px 6px;
+  background:linear-gradient(90deg,#07152212,transparent 16%,#ffffff40 55%,#07152215),var(--book-colour);
+  color:var(--ink);box-shadow:inset 1px 0 #ffffff66,inset -2px 0 #07152214;
+  transform:rotateY(-90deg);transform-origin:left center;
+}
+.book-spine .book-spine-title{writing-mode:vertical-rl;white-space:nowrap;text-overflow:ellipsis;max-height:100%;line-height:1.2;font-size:14px;text-align:left}
+@media(hover:hover) and (pointer:fine){
+  .library-book.book-original-cover{width:calc(var(--book-width) * var(--book-scale,1))}
+  .book-original-cover .book-volume{transform:rotateY(90deg)}
+  .library-book.book-original-cover:is(:hover,:focus-visible){width:calc(var(--book-cover-width) * var(--book-scale,1));z-index:2}
+  .book-original-cover:is(:hover,:focus-visible) .book-volume{transform:rotateY(0deg)}
+}
+@media(prefers-reduced-motion:reduce){
+  .library-book.book-original-cover,.book-volume{transition:none}
+}

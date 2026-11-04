@@ -5,6 +5,11 @@
   const unassigned = books.filter(book => book.status !== 'reading' && book.status !== 'read');
   const dialog = document.querySelector('.book-dialog');
   const palette = ['#d5dfec', '#e9cfcb', '#e6dfb9', '#ccddd2', '#ded5eb', '#edcfb0'];
+  const sizes = [
+    [182, 39, 120], [196, 43, 126], [170, 35, 110], [188, 38, 121],
+    [160, 32, 108], [178, 42, 116], [202, 37, 130], [174, 44, 114],
+    [193, 40, 125], [185, 36, 119], [198, 41, 128]
+  ];
 
   const showBook = book => {
     dialog.querySelector('h2').textContent = book.title;
@@ -18,15 +23,40 @@
   const makeBook = (book, index, face) => {
     const button = document.createElement('button');
     button.type = 'button';
-    button.className = 'library-book' + (face ? ' book-face' : '');
+    button.className = 'library-book' + (face || book.cover ? ' book-face' : '') + (book.cover ? ' book-original-cover' : '');
+    const [height, spineWidth, coverWidth] = sizes[index % sizes.length];
+    button.style.setProperty('--book-height', height + 'px');
+    button.style.setProperty('--book-width', spineWidth + 'px');
+    button.style.setProperty('--book-cover-width', coverWidth + 'px');
     button.style.setProperty('--book-colour', palette[index % palette.length]);
     button.setAttribute('aria-label', book.title + (book.author ? ' by ' + book.author : '') + ' — view details');
-    if (face && book.cover) {
+    if (book.cover) {
+      const volume = document.createElement('span');
+      volume.className = 'book-volume';
+      volume.setAttribute('aria-hidden', 'true');
+      const spine = document.createElement('span');
+      spine.className = 'book-spine';
+      const title = document.createElement('span');
+      title.className = 'book-spine-title';
+      title.textContent = book.title;
+      spine.append(title);
+      const front = document.createElement('span');
+      front.className = 'book-front';
       const image = document.createElement('img');
       image.src = book.cover;
       image.alt = '';
-      image.loading = 'lazy';
-      button.append(image);
+      image.decoding = 'async';
+      image.addEventListener('load', () => {
+        button.style.setProperty('--book-cover-width', (height * image.naturalWidth / image.naturalHeight) + 'px');
+      }, { once: true });
+      image.addEventListener('error', () => {
+        volume.remove();
+        button.classList.remove('book-original-cover');
+        button.append(title);
+      }, { once: true });
+      front.append(image);
+      volume.append(spine, front);
+      button.append(volume);
     } else {
       const title = document.createElement('span');
       title.className = 'book-spine-title';
@@ -39,18 +69,22 @@
   const makeShelf = () => {
     const shelf = document.createElement('div');
     shelf.className = 'book-shelf';
+    shelf.tabIndex = 0;
+    shelf.setAttribute('role', 'region');
+    shelf.setAttribute('aria-label', 'Bookshelf — scroll horizontally to explore the books');
+    const track = document.createElement('div');
+    track.className = 'shelf-track';
     const row = document.createElement('div');
     row.className = 'shelf-books';
     const plank = document.createElement('div');
     plank.className = 'shelf-plank';
     plank.setAttribute('aria-hidden', 'true');
-    shelf.append(row, plank);
+    track.append(row, plank);
+    shelf.append(track);
     return { shelf, row };
   };
   if (books.length) {
-    document.querySelector('#library-total').textContent = books.length + (books.length === 1 ? ' book on my shelf' : ' books on my shelves');
     document.querySelector('#reading-count').textContent = String(reading.length);
-    document.querySelector('#finished-count').textContent = String(finished.length);
   }
   if (reading.length) {
     const row = document.querySelector('#reading-books');
@@ -58,12 +92,10 @@
   }
   const renderShelves = (container, entries) => {
     container.replaceChildren();
-    const capacity = window.matchMedia('(max-width: 600px)').matches ? 4 : 10;
-    for (let i = 0; i < entries.length; i += capacity) {
-      const { shelf, row } = makeShelf();
-      entries.slice(i, i + capacity).forEach((book, j) => row.append(makeBook(book, i + j, false)));
-      container.append(shelf);
-    }
+    if (!entries.length) return;
+    const { shelf, row } = makeShelf();
+    entries.forEach((book, index) => row.append(makeBook(book, index, false)));
+    container.append(shelf);
   };
   const renderCollections = () => {
     if (finished.length) renderShelves(document.querySelector('#finished-shelves'), finished);
@@ -71,12 +103,11 @@
   };
   if (books.length) {
     document.querySelector('#reading-title').closest('section').hidden = !reading.length;
-    document.querySelector('#finished-title').closest('section').hidden = !finished.length;
+    document.querySelector('#finished-section').hidden = !finished.length;
     document.querySelector('#unsorted-section').hidden = !unassigned.length;
     document.querySelector('#unsorted-count').textContent = String(unassigned.length);
   }
   renderCollections();
-  window.matchMedia('(max-width: 600px)').addEventListener('change', renderCollections);
   dialog.querySelector('.book-dialog-close').addEventListener('click', () => dialog.close());
   dialog.addEventListener('click', event => {
     if (event.target !== dialog) return;
