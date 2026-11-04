@@ -11,6 +11,17 @@
     [193, 40, 125], [185, 36, 119], [198, 41, 128]
   ];
 
+  const spineInk = colour => {
+    const rgb = colour.slice(1).match(/../g).map(channel => parseInt(channel, 16) / 255);
+    const linear = rgb.map(value => value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4);
+    const luminance = linear[0] * .2126 + linear[1] * .7152 + linear[2] * .0722;
+    const inkLuminance = .00694; // The site's #071522 ink.
+    const darkContrast = (luminance + .05) / (inkLuminance + .05);
+    const lightContrast = 1.05 / (luminance + .05);
+    if (darkContrast < 4.5 && lightContrast < 4.5) return '#000000';
+    return darkContrast >= lightContrast ? '#071522' : '#ffffff';
+  };
+
   const showBook = book => {
     dialog.querySelector('h2').textContent = book.title;
     dialog.querySelector('.book-dialog-author').textContent = book.author || '';
@@ -28,7 +39,14 @@
     button.style.setProperty('--book-height', height + 'px');
     button.style.setProperty('--book-width', spineWidth + 'px');
     button.style.setProperty('--book-cover-width', coverWidth + 'px');
-    button.style.setProperty('--book-colour', palette[index % palette.length]);
+    const colour = book.spineColor || palette[index % palette.length];
+    button.style.setProperty('--book-colour', colour);
+    button.style.setProperty('--book-ink', spineInk(colour));
+    const direction = index % 2 ? 1 : -1;
+    button.style.setProperty('--book-lean-start', (direction * (.35 + index % 3 * .2)) + 'deg');
+    button.style.setProperty('--book-lean-end', (-direction * (.6 + index % 4 * .2)) + 'deg');
+    button.style.setProperty('--book-sway-duration', (6.2 + index % 5 * .65) + 's');
+    button.style.setProperty('--book-sway-delay', (-index * 1.17) + 's');
     button.setAttribute('aria-label', book.title + (book.author ? ' by ' + book.author : '') + ' — view details');
     if (book.cover) {
       const volume = document.createElement('span');
