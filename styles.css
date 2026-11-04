@@ -230,3 +230,41 @@ a.button:hover{background:#13293c;color:#fff;text-decoration:none}
   .about-stats{grid-template-columns:minmax(0,1fr)}
   .about-stats li{min-width:0;width:100%}
 }
+
+.back-link{display:inline-flex;align-items:center;gap:7px;width:fit-content}.back-chevron{display:block;width:16px;height:16px;flex-shrink:0}
+
+/* Collapse only the mobile header links into an accessible disclosure. */
+.nav-toggle{display:none}
+@media(max-width:767px){
+  .header{position:relative;flex-wrap:nowrap;align-items:center}
+  .nav-toggle{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:44px;height:44px;padding:10px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);cursor:pointer}
+  .nav-toggle svg{width:24px;height:24px}
+  .nav-toggle:focus-visible{outline:2px solid #5970a7;outline-offset:4px}
+  .header .header-nav{display:none;position:absolute;top:calc(100% - 4px);right:20px;min-width:190px;max-width:calc(100vw - 40px);z-index:20;flex-direction:column;align-items:stretch;gap:0;padding:6px;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:0 10px 30px #07152212}
+  .header .header-nav.is-open{display:flex}
+  .header .header-nav a{font-size:16px;line-height:1.4;min-height:44px;padding:12px;border-radius:9px}
+  .header .header-nav a:hover,.header .header-nav a:focus-visible{background:var(--panel)}
+}
+
+/* App-style tool icons, with the quiet light palette of the portfolio. */
+.tools-section{max-width:1000px;width:90%;margin:90px auto 0;text-align:center}
+.tools-section h2{font-size:28px;font-weight:500;letter-spacing:-1px;margin:0 0 14px}
+.tools-description,.tools-figma-note{font-size:16px;line-height:1.7;color:var(--muted);margin:0}
+.tools-app-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:35px 24px;list-style:none;padding:38px 24px;margin:30px 0 20px;background:#f6f7f9;border-radius:24px}
+.tool-app{display:flex;flex-direction:column;align-items:center;gap:12px;border-radius:20px}
+.tool-app:hover{text-decoration:none}
+.tool-app-icon{width:96px;height:96px;display:flex;align-items:center;justify-content:center;position:relative;border-radius:24px;border:1px solid #0715220b;background:#fff;box-shadow:inset 0 1px 2px #ffffff70,0 4px 9px #0715220b;transition:transform .2s}
+.tool-app:hover .tool-app-icon{transform:translateY(-4px)}
+.tool-app-icon img{width:47px;height:47px;object-fit:contain}
+.app-figma img,.app-sites img,.app-make img,.app-motion img{width:34px;height:51px}
+.app-figjam{background:#eee5fc}.app-figjam img{width:66px;height:66px}
+.app-maze{background:#2258e8}.app-trello{background:#1768d6}.app-sites{background:#e7eefa}.app-make{background:#ece5fa}.app-motion{background:#f7e5eb}
+.app-claude,.app-claude-code{background:#bf623e}.app-codex{background:#20231f}.app-webflow{background:#2855ee}.app-slack{background:#4a154b}
+.app-photoshop{background:#08263e;color:#72c5ff}.app-illustrator{background:#35210b;color:#ffbd68}
+.tool-lettermark{font-size:39px;line-height:1;font-weight:500;letter-spacing:-2px}
+.tool-app-badge{position:absolute;right:6px;bottom:6px;min-width:22px;min-height:22px;display:grid;place-items:center;background:#fff;color:var(--ink);font-size:14px;font-weight:600;border-radius:7px;border:1px solid #0715220b}
+.tool-app-label{font-size:16px;line-height:1.4;color:var(--ink);overflow-wrap:normal}
+.tools-figma-note{font-size:14px}
+@media(max-width:900px){.tools-app-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:30px 18px}}
+@media(max-width:600px){.tools-section{margin-top:60px}.tools-section h2{font-size:26px}.tools-app-grid{gap:27px 10px;padding:28px 12px;border-radius:20px}.tool-app{gap:10px}.tool-app-icon{width:74px;height:74px;border-radius:19px}.tool-app-icon img{width:36px;height:36px}.app-figma img,.app-sites img,.app-make img,.app-motion img{width:27px;height:41px}.app-figjam img{width:53px;height:53px}.tool-lettermark{font-size:31px}.tool-app-label{font-size:14px}.tool-app-badge{right:3px;bottom:3px;min-width:20px;min-height:20px;font-size:14px}.tools-figma-note{font-size:14px}}
+@media(prefers-reduced-motion:reduce){.tool-app-icon{transition:none}.tool-app:hover .tool-app-icon{transform:none}}
