@@ -319,3 +319,12 @@ a.button:hover{background:#13293c;color:#fff;text-decoration:none}
 /* More separation between selected work and the About section. */
 .about{margin-top:160px}
 @media(max-width:600px){.about{margin-top:110px}}
+
+.about-copy .tools-section{margin-top:48px}
+@media(max-width:600px){.about-copy .tools-section{margin-top:36px}}
+
+/* Start icon columns on the text grid while keeping captions centred beneath each icon. */
+.about-copy .tools-app-grid>li{min-width:0;display:flex;justify-content:flex-start}
+.about-copy .tool-app{width:56px;flex-shrink:0}
+.about-copy .tool-app-label{width:max-content;max-width:none;text-align:center}
+@media(max-width:600px){.about-copy .tool-app{width:48px}}
