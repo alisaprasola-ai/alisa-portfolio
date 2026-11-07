@@ -305,3 +305,18 @@ a.button:hover{background:#13293c;color:#fff;text-decoration:none}
 .experience article>span{flex-shrink:0}
 .experience .experience-location{font-size:14px;line-height:1.5;margin-top:5px}
 .experience .experience-description{font-size:16px;line-height:1.7;margin-top:12px}
+
+/* Keep the hovered case prominent while dimming its sibling cards. */
+@media (hover: hover) and (pointer: fine) {
+  :is(.work, .other-projects-grid) > .project-card {
+    transition: filter .2s ease;
+  }
+  :is(.work, .other-projects-grid):has(> .project-card:hover) > .project-card:not(:hover) {
+    filter: brightness(.65);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.work, .other-projects-grid) > .project-card {
+    transition: none;
+  }
+}
