@@ -514,20 +514,15 @@ a.button:hover{background:#13293c;color:#fff;text-decoration:none}
   .library-book.book-original-cover,.book-volume{animation:none}
 }
 
-/* Keep the hovered case prominent while dimming its sibling cards. */
-@media (hover: hover) and (pointer: fine) {
-  :is(.work, .other-projects-grid) > .project-card {
-    transition: filter .2s ease;
-  }
-  :is(.work, .other-projects-grid):has(> .project-card:hover) > .project-card:not(:hover) {
-    filter: brightness(.65);
-  }
+/* Project artwork gently zooms inside its fixed frame. */
+.project-card .real-project img{transform:scale(1);transform-origin:center;transition:transform 1s ease-out}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .project-card:hover .real-project img{transform:scale(1.03)}
 }
-@media (prefers-reduced-motion: reduce) {
-  :is(.work, .other-projects-grid) > .project-card {
-    transition: none;
-  }
+@media(prefers-reduced-motion:no-preference){
+  .project-card:focus-within .real-project img{transform:scale(1.03)}
 }
+@media(prefers-reduced-motion:reduce){.project-card .real-project img{transition:none}}
 
 /* Staggered 3D letter flip for text buttons. */
 .button-flip-accessible{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
