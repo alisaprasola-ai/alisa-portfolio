@@ -1,6 +1,6 @@
 # Alisa Prasol — Portfolio
 
-Responsive UI/UX and product design portfolio built with HTML, CSS, and vanilla JavaScript. Includes five project pages, locally hosted fonts, original project artwork, and a personal About section.
+Responsive UI/UX and product design portfolio built with HTML, CSS, and vanilla JavaScript. Includes seven project pages, locally hosted fonts, descriptive project summaries, and a personal About section.
 
 ## Run locally
 
@@ -21,6 +21,7 @@ Open `http://localhost:3000`. No dependency installation or build step is needed
 - `hero-typing.js`: one-time typing animation and heading colour effects; respects reduced motion.
 - `assets/`: referenced images, sticker sheet, fonts, and font licence.
 
-Project covers and in-case artwork use 3:2 frames. Prepare replacement artwork at 1800 × 1200 px or another 3:2 size. Colmex Pro intentionally has no project imagery.
+All seven project cases use descriptive titles, text-only cards, and no project screenshots or identifying live links. Original artwork and earlier case drafts are kept outside the public site. A separate agency website case remains hidden.
+
 
 After changing CSS or JavaScript, run `python3 scripts/version-assets.py` before committing. This refreshes the asset URLs so returning visitors load the matching styles and scripts. SVG navigation icons also declare their own dimensions as a fallback.
