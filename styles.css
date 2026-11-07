@@ -513,3 +513,18 @@ a.button:hover{background:#13293c;color:#fff;text-decoration:none}
   .shelf-books,.library-book.book-original-cover{transition:none}
   .library-book.book-original-cover,.book-volume{animation:none}
 }
+
+/* Keep the hovered case prominent while dimming its sibling cards. */
+@media (hover: hover) and (pointer: fine) {
+  :is(.work, .other-projects-grid) > .project-card {
+    transition: filter .2s ease;
+  }
+  :is(.work, .other-projects-grid):has(> .project-card:hover) > .project-card:not(:hover) {
+    filter: brightness(.65);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.work, .other-projects-grid) > .project-card {
+    transition: none;
+  }
+}
