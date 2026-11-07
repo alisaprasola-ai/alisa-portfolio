@@ -38,3 +38,42 @@
     if (window.location.hash === '#experience') openExperience();
   });
 })();
+
+(() => {
+  document.querySelectorAll('.button').forEach(button => {
+    // Leave buttons with icons or other structured content intact.
+    if (button.children.length) return;
+    const text = button.textContent;
+    if (!text.trim()) return;
+    const label = document.createElement('span');
+    label.className = 'button-flip-label';
+    label.setAttribute('aria-hidden', 'true');
+    Array.from(text).forEach((character, index) => {
+      const letter = document.createElement('span');
+      letter.className = 'button-flip-letter';
+      letter.style.setProperty('--letter-delay', `${Math.min(index * 18, 300)}ms`);
+      for (const face of ['front', 'back']) {
+        const span = document.createElement('span');
+        span.className = `button-flip-${face}`;
+        span.textContent = character === ' ' ? '\u00a0' : character;
+        letter.append(span);
+      }
+      label.append(letter);
+    });
+    const accessibleLabel = document.createElement('span');
+    accessibleLabel.className = 'button-flip-accessible';
+    accessibleLabel.textContent = text;
+    button.replaceChildren(accessibleLabel, label);
+    button.classList.add('button-flip');
+  });
+})();
+
+(() => {
+  const selector = '.header-nav a, .footer a, .case-sidebar a, .case-back, .case-return, .case-external';
+  const links = [...document.querySelectorAll(selector)].filter(link => !link.matches('.button'));
+  if (!links.length) return;
+  links.forEach(link => {
+    link.classList.add('secondary-link');
+    link.parentElement.classList.add('secondary-link-group');
+  });
+})();

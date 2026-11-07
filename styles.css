@@ -521,21 +521,6 @@ a.button:hover{background:#13293c;color:#fff;text-decoration:none}
 .case-gallery-item img{display:block;width:100%;height:auto}
 @media(max-width:600px){.case-gallery{grid-template-columns:minmax(0,1fr);gap:16px}}
 
-/* Keep the hovered case prominent while dimming its sibling cards. */
-@media (hover: hover) and (pointer: fine) {
-  :is(.work, .other-projects-grid) > .project-card {
-    transition: filter .2s ease;
-  }
-  :is(.work, .other-projects-grid):has(> .project-card:hover) > .project-card:not(:hover) {
-    filter: brightness(.65);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  :is(.work, .other-projects-grid) > .project-card {
-    transition: none;
-  }
-}
-
 /* Center the closing note across the row after an even number of project cards. */
 .work>.many-more:nth-child(odd){grid-column:1/-1}
 
@@ -557,3 +542,29 @@ a.button:hover{background:#13293c;color:#fff;text-decoration:none}
   .other-projects-grid{grid-template-columns:minmax(0,1fr)}
   .other-projects .project-text-only .project-info{min-height:260px;padding:20px 18px}
 }
+
+/* Staggered 3D letter flip for text buttons. */
+.button-flip-accessible{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+.button-flip-label{display:inline-flex;perspective:500px}
+.button-flip-letter{position:relative;display:inline-block;transform-style:preserve-3d}
+.button-flip-front,.button-flip-back{display:block;backface-visibility:hidden;transition:transform .42s cubic-bezier(.22,.68,0,1.05);transition-delay:var(--letter-delay);transform-origin:50% 50% -.5em}
+.button-flip-back{position:absolute;inset:0;transform:rotateX(-90deg)}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .button-flip:hover .button-flip-front{transform:rotateX(90deg)}
+  .button-flip:hover .button-flip-back{transform:rotateX(0deg)}
+}
+@media(prefers-reduced-motion:no-preference){
+  .button-flip:focus-visible .button-flip-front{transform:rotateX(90deg)}
+  .button-flip:focus-visible .button-flip-back{transform:rotateX(0deg)}
+}
+@media(prefers-reduced-motion:reduce){.button-flip-front,.button-flip-back{transition:none}}
+
+/* Secondary text links: lighten neighboring links on hover. */
+.secondary-link{transition:color .18s ease}
+@media(hover:hover) and (pointer:fine){
+  .secondary-link-group:has(.secondary-link:hover) .secondary-link:not(:hover):not(:focus-visible){color:#b7b7b7}
+  .secondary-link-group .secondary-link:hover{color:var(--ink);background:transparent;text-decoration:none}
+}
+.secondary-link-group:has(.secondary-link:focus-visible) .secondary-link:not(:focus-visible):not(:hover){color:#b7b7b7}
+.secondary-link-group .secondary-link:focus-visible{color:var(--ink)}
+@media(prefers-reduced-motion:reduce){.secondary-link{transition:none}}
