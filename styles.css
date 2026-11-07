@@ -549,3 +549,10 @@ a.button:hover{background:#13293c;color:#fff;text-decoration:none}
 .secondary-link-group:has(.secondary-link:focus-visible) .secondary-link:not(:focus-visible):not(:hover){color:#b7b7b7}
 .secondary-link-group .secondary-link:focus-visible{color:var(--ink)}
 @media(prefers-reduced-motion:reduce){.secondary-link{transition:none}}
+
+/* Pendulum: one wide preview and two equally spaced detail panels. */
+.pendulum-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.pendulum-gallery figure{margin:0;min-width:0;overflow:hidden;border-radius:12px;background:var(--panel)}
+.pendulum-gallery-wide{grid-column:1/-1}
+.pendulum-gallery img{display:block;width:100%;height:auto}
+@media(max-width:600px){.pendulum-gallery{grid-template-columns:minmax(0,1fr)}}
