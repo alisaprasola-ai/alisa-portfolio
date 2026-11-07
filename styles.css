@@ -549,10 +549,10 @@ a.button:hover{background:#13293c;color:#fff;text-decoration:none}
 .secondary-link{transition:color .18s ease}
 .secondary-cursor{position:fixed;left:0;top:0;width:56px;height:56px;border:1px solid var(--ink);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:1000;opacity:0;transition:opacity .15s ease}
 @media(hover:hover) and (pointer:fine){
-  .secondary-link-group:has(.secondary-link:hover) .secondary-link{color:#b7b7b7}
+  .secondary-link-group:has(.secondary-link:hover) .secondary-link:not(:hover):not(:focus-visible){color:#b7b7b7}
   .secondary-link-group .secondary-link:hover{color:var(--ink);background:transparent;text-decoration:none}
   .secondary-cursor.is-visible{opacity:1}
 }
-.secondary-link-group:has(.secondary-link:focus-visible) .secondary-link{color:#b7b7b7}
+.secondary-link-group:has(.secondary-link:focus-visible) .secondary-link:not(:focus-visible):not(:hover){color:#b7b7b7}
 .secondary-link-group .secondary-link:focus-visible{color:var(--ink)}
 @media(prefers-reduced-motion:reduce){.secondary-link,.secondary-cursor{transition:none}.secondary-cursor{display:none}}
